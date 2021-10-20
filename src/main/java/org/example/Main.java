@@ -8,6 +8,8 @@ import java.util.concurrent.*;
  * Main class
  */
 public class Main {
+    private static final int POOL_SIZE = 4;
+
     public static void main(String[] args) throws InterruptedException, ExecutionException {
         Callable<String> myCallable1 = new MyCallable("Поток 1");
         Callable<String> myCallable2 = new MyCallable("Поток 2");
@@ -23,7 +25,7 @@ public class Main {
     }
 
     private static void invokeAllCallable(List<Callable<String>> callableList) throws InterruptedException, ExecutionException {
-        final ExecutorService threadPool = Executors.newFixedThreadPool(4);
+        final ExecutorService threadPool = Executors.newFixedThreadPool(POOL_SIZE);
         // Отправляем все задачи на выполнение
         final List<Future<String>> tasks = threadPool.invokeAll(callableList);
         //Отменяет все запущенные задачи
@@ -36,7 +38,7 @@ public class Main {
     }
 
     private static void invokeAnyCallable(List<Callable<String>> callableList) throws ExecutionException, InterruptedException {
-        final ExecutorService threadPool = Executors.newFixedThreadPool(4);
+        final ExecutorService threadPool = Executors.newFixedThreadPool(POOL_SIZE);
         //Получение результата задачи, которая завершится первой
         final String invokeAny = threadPool.invokeAny(callableList);
         //Отменяет все запущенные задачи
